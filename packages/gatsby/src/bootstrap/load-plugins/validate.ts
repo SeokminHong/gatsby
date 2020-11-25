@@ -221,20 +221,16 @@ async function validatePluginsOptions(
           })
         }
 
-        plugin.options = await validateOptionsSchema(
+        await validateOptionsSchema(
           optionsSchema,
           (plugin.options as IPluginInfoOptions) || {}
         )
 
         if (plugin.options?.plugins) {
-          const {
-            errors: subErrors,
-            plugins: subPlugins,
-          } = await validatePluginsOptions(
+          const { errors: subErrors } = await validatePluginsOptions(
             plugin.options.plugins as Array<IPluginRefObject>,
             rootDir
           )
-          plugin.options.plugins = subPlugins
           errors += subErrors
         }
       } catch (error) {
